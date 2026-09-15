@@ -39,12 +39,20 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
 set(DONUT_SHADERS_OUTPUT_DIR "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/shaders/framework")
 
-add_subdirectory(donut)
+# Prefer the Donut checkout next to this repository; fall back to the submodule path
+if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../Donut/CMakeLists.txt")
+    set(DONUT_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../Donut" CACHE PATH "Path to the Donut source tree")
+else()
+    set(DONUT_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/donut" CACHE PATH "Path to the Donut source tree")
+endif()
+message(STATUS "Using Donut from: ${DONUT_SOURCE_DIR}")
+
+add_subdirectory(${DONUT_SOURCE_DIR} donut)
 
 if (NVRHI_WITH_DX12)
     set(DONUT_D3D_AGILITY_SDK_URL "https://www.nuget.org/api/v2/package/Microsoft.Direct3D.D3D12/1.717.1-preview")
     set(DONUT_D3D_AGILITY_SDK_FETCH_DIR "" CACHE STRING "" FORCE)
-    include("${CMAKE_CURRENT_SOURCE_DIR}/donut/cmake/FetchAgilitySDK.cmake")
+    include("${DONUT_SOURCE_DIR}/cmake/FetchAgilitySDK.cmake")
 
     file(COPY
         "${DONUT_D3D_AGILITY_SDK_PATH}/build/native/bin/x64/D3D12Core.dll"
@@ -58,16 +66,19 @@ add_subdirectory(examples/vertex_buffer)
 add_subdirectory(examples/deferred_shading)
 add_subdirectory(examples/headless)
 
-if (NVRHI_WITH_VULKAN OR NVRHI_WITH_DX12)
+if (NVRHI_WITH_VULKAN OR NVRHI_WITH_DX12 OR NVRHI_WITH_METAL)
     add_subdirectory(examples/bindless_rendering)
     add_subdirectory(examples/variable_shading)
+    add_subdirectory(examples/threaded_rendering)
+    add_subdirectory(examples/async_compute)
+endif()
+
+if (NVRHI_WITH_VULKAN OR NVRHI_WITH_DX12)
     add_subdirectory(examples/rt_triangle)
     add_subdirectory(examples/rt_shadows)
     add_subdirectory(examples/rt_bindless)
     add_subdirectory(examples/rt_particles)
     add_subdirectory(examples/meshlets)
-    add_subdirectory(examples/threaded_rendering)
-    add_subdirectory(examples/async_compute)
 endif()
 
 if (NVRHI_WITH_DX12)
