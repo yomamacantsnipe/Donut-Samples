@@ -27,14 +27,13 @@ file(GLOB sources "*.cpp" "*.h")
 set(project bindless_rendering)
 set(folder "Examples/Bindless Rendering")
 
-donut_compile_shaders(
+donut_compile_shaders_all_platforms(
+	SLANG
     TARGET ${project}_shaders
     PROJECT_NAME "Bindless Rendering"
     CONFIG ${CMAKE_CURRENT_SOURCE_DIR}/shaders.cfg
-    SOURCES ${shaders}
     FOLDER ${folder}
-    DXIL ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/shaders/${project}/dxil
-    SPIRV_DXC ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/shaders/${project}/spirv
+    OUTPUT_BASE ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/shaders/${project}
 )
 
 add_executable(${project} WIN32 ${sources})
