@@ -28,6 +28,7 @@ set(project headless)
 set(folder "Examples/Headless")
 
 donut_compile_shaders_all_platforms(
+	SLANG
     TARGET ${project}_shaders
     PROJECT_NAME "Headless"
     CONFIG ${CMAKE_CURRENT_SOURCE_DIR}/shaders.cfg

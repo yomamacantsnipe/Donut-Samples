@@ -28,6 +28,7 @@ set(project async_compute)
 set(folder "Examples/Async Compute")
 
 donut_compile_shaders_all_platforms(
+	SLANG
     TARGET ${project}_shaders
     PROJECT_NAME "Async Compute"
     CONFIG ${CMAKE_CURRENT_SOURCE_DIR}/shaders.cfg

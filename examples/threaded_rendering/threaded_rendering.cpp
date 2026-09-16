@@ -264,7 +264,7 @@ public:
             blitParams.sourceArraySlice = face;
             m_CommonPasses->BlitTexture(m_CommandList, blitParams, m_BindingCache.get());
         }
-        
+
         m_CommandList->close();
 
         if (m_UseThreads)
@@ -283,6 +283,8 @@ public:
         };
         
         GetDevice()->executeCommandLists(commandLists, std::size(commandLists));
+
+                // -------------------------------------------------------------------------
     }
 };
 

@@ -33,7 +33,7 @@ donut_compile_shaders(
     CONFIG ${CMAKE_CURRENT_SOURCE_DIR}/shaders.cfg
     FOLDER ${folder}
     DXIL ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/shaders/${project}/dxil
-    SPIRV_DXC ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/shaders/${project}/spirv
+    SPIRV_SLANG ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/shaders/${project}/spirv
     SHADERMAKE_OPTIONS_SPIRV "--spirvExt SPV_EXT_mesh_shader")
 
 add_executable(${project} WIN32 ${sources})

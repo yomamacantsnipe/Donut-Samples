@@ -28,6 +28,7 @@ set(project aftermath_sample)
 set(folder "Examples/Aftermath")
 
 donut_compile_shaders_all_platforms(
+	SLANG
     TARGET ${project}_shaders
     PROJECT_NAME "Aftermath"
     CONFIG ${CMAKE_CURRENT_SOURCE_DIR}/shaders.cfg
