@@ -1754,7 +1754,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 #else //  _WIN32
 int main(int __argc, const char* const* __argv)
 {
-    nvrhi::GraphicsAPI api = nvrhi::GraphicsAPI::VULKAN;
+    nvrhi::GraphicsAPI api = app::GetGraphicsAPIFromCommandLine(__argc, __argv);
 #endif //  _WIN32
 
     DeviceCreationParameters deviceParams;
@@ -1785,6 +1785,11 @@ int main(int __argc, const char* const* __argv)
     }
     
     DeviceManager* deviceManager = DeviceManager::Create(api);
+    if (!deviceManager)
+    {
+        log::error("Failed to create the device manager for the requested graphics API");
+        return 1;
+    }
     const char* apiString = nvrhi::utils::GraphicsAPIToString(deviceManager->GetGraphicsAPI());
 
     std::string windowTitle = "Donut Feature Demo (" + std::string(apiString) + ")";
